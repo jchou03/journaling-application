@@ -1,0 +1,27 @@
+.navbar{
+    font-family: 'Josefin Slab';
+    background-color: rgb(255, 151, 168);
+    width: 100%;
+    height: 100px;
+}
+
+.navbar b {
+    width: auto;
+    padding: 1%;
+    display: inline-flex;
+    text-align: center;
+    font-size: 175%;
+    line-height: 200%;
+    text-decoration: none;
+}
+
+.navbar a {
+    width: auto;
+    padding: 1%;
+    display: inline-flex;
+    text-align: center;
+    font-size: 175%;
+    line-height: 200%;
+    text-decoration: none;
+    float: right;
+}
