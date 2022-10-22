@@ -25,3 +25,23 @@
     text-decoration: none;
     float: right;
 }
+
+.navbar Button {
+    width: auto;
+    height: 70%;
+    margin: 1%;
+    border-radius: 4px;
+    border: 2px solid rgb(225, 121, 138);
+    background-color: rgb(225, 121, 138);
+    display: inline-flex;
+    text-align: center;
+    font-size: 175%;
+    line-height: 200%;
+    text-decoration: none;
+    float: right;
+}
+
+.navbar Button:hover {
+    border: 2px solid rgb(205, 101, 118);
+    background-color: rgb(205, 101, 118);
+}
