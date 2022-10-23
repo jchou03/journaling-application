@@ -4,7 +4,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 function signInPopup(signedIn) {
-    if (signedIn == "true") {
+    if (signedIn==1) {
         return (
             <>
                 <h1> Sign out? </h1>
@@ -43,7 +43,7 @@ function Topnav(props) {
 
             <a>Currently signed in as {props.username}</a>
 
-            <Popup trigger={<button> {props.signedIn=="true" ? "Sign out" : "Sign in"}</button>} modal>
+            <Popup trigger={<button> {props.signedIn==1 ? "Sign out" : "Sign in"}</button>} modal>
                 {signInPopup(props.signedIn)}
              </Popup>
         </Navbar>
