@@ -15,13 +15,16 @@ function signOut(props) {
     //props.signedIn = 0;
 }
 
-function signInPopup(props) {
+function signInPopup(props, close) {
     if (props.signedIn==1) {
         return (
             <>
                 <h1> Sign out? </h1>
 
-                <button onClick={() => signOut(props)}>Yes</button>
+                <button onClick={() => {
+                    signOut(props);
+                    close();
+                }}>Yes</button>
                 <button>No</button>
             </>
         );
@@ -30,15 +33,14 @@ function signInPopup(props) {
             <>
                 <h1> Sign in </h1>
 
-                <form onSubmit={() => {
+                <label for="name">Username: </label>
+                <input type="text" id="name"/><br/>
+                <label for="pass">Password: </label>
+                <input type="text" id="pass"/><br/>
+                <button onClick={() => {
                     signIn(props, document.getElementById("name").value, document.getElementById("pass").value);
-                }}>
-                    <label for="name">Username: </label>
-                    <input type="text" id="name"/><br/>
-                    <label for="pass">Password: </label>
-                    <input type="text" id="pass"/><br/>
-                    <input type="submit" value="Sign in"/>
-                </form>
+                    close();
+                }}>Sign In</button>
             </>
         );
     }
@@ -58,7 +60,7 @@ function Topnav(props) {
             <a>Currently signed in as {props.username}</a>
 
             <Popup trigger={<button> {props.signedIn==1 ? "Sign out" : "Sign in"}</button>} modal>
-                {signInPopup(props)}
+                {close => (signInPopup(props, close))}
              </Popup>
         </Navbar>
     );
