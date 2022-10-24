@@ -1,0 +1,52 @@
+#journal{
+    background-color: beige;
+    margin: 1em;
+    height: auto;
+    padding: 10px;
+    display:flex;
+}
+
+.book_page{
+    float:left;
+    /* margin: 10px;
+    padding: 10px; */
+    /* background-color: cyan; */
+    flex: 50%;
+    border-radius: 10px;
+}
+
+.journal_part{
+    padding: 10px;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
+    background-color: #82C6C2
+}
+
+.vl{
+    border-left: 2px solid black;
+    left: 50%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+section{
+    border: 1px solid paleturquoise;
+}
+
+#cur_goals{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#to_do{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#left_arrow{
+    float:left
+}
+
+#right_arrow{
+    float:right
+}
