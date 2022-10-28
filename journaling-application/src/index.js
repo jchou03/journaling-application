@@ -5,13 +5,15 @@ import App from './App';
 import Topnav from './Topnav'
 import Journal from './Journal'
 import reportWebVitals from './reportWebVitals';
+import TODO_list from './Journal';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Topnav username="name" signedIn='0'/>
-    <Journal cur_goals="get more sleep"/>
+    {/* <Journal cur_goals="get more sleep"/> */}
     {/* <App /> */}
+    <TODO_list/>
   </React.StrictMode>
 );
 
