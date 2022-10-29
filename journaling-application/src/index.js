@@ -11,9 +11,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Topnav username="name" signedIn='0'/>
-    {/* <Journal cur_goals="get more sleep"/> */}
+    <Journal checkList={["get more sleep", "cry"]}/>
     {/* <App /> */}
-    <TODO_list/>
+    {/* <TODO_list checkList={["Apple", "Banana", "Tea", "Coffee"]}/> */}
   </React.StrictMode>
 );
 

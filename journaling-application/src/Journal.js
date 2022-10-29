@@ -1,91 +1,123 @@
+import React, {useEffect, useState} from "react";
+import Popup from 'reactjs-popup';
 import './Journal.css';
 
-function TODO_element(props){
+// create a popup for adding a new todo element
+function Add_todo(){
+    const [name, setName] = useState("")
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        alert(`The name you entered was: ${name}`);
+      }
+
     return(
-        <li><input type="checkbox" value={props.val}></input>{props.text}</li>
+        <div>
+            <Popup trigger={<button>+</button>} modal>
+                {close => (
+                    <div>
+                        <h4>Add new To-Do</h4>
+                        <form>
+                            <label htmlFor="text">Text:
+                                <input type="text" id="text" value={name}
+                                    onChange={(e) => setName(e.target.value)} 
+                                    onSubmit={handleSubmit}/>
+                            </label>
+                            <input type="submit" />
+                        </form>
+
+                        {/* <button onClick={() => {
+                            todos.push(document.getElementById("text").value)
+                            console.log(todos)
+                            close()
+                        }}>submit</button> */}
+                    </div>
+                )}
+            </Popup>
+        </div>
     )
 }
 
+
 // takes in list of text to put in checkboxes
-function TODO_list(){
-    // const [checked, setChecked] = useState([]);
-    const checkList = ["Apple", "Banana", "Tea", "Coffee"];
+function TODO_list(props){
+    const [todoList, setTodoList] = useState(props)
+    const [newVal, setNewVal] = useState("")
+    // let todoList = todos
 
-    // Add/Remove checked item from list
-    const handleCheck = (event) => {
-    var updatedList = [...checked];
-    if (event.target.checked) {
-        updatedList = [...checked, event.target.value];
-    } else {
-        updatedList.splice(checked.indexOf(event.target.value), 1);
+    const handleSubmit = () => {
+        console.log("handling submit")
+        console.log(newVal)
+        // let newList = todoList
+        // newList.push(newVal)
+        // console.log(newList)
+        todoList.push(newVal)
+        console.log(todoList)
+        setTodoList([...todoList])
+        // this.setState(
+        //     {reload: true},
+        //     () => this.setState({reload: false})
+        //   )
     }
-    setChecked(updatedList);
-    };
-
-    // Generate string of checked items
-    const checkedItems = checked.length
-    ? checked.reduce((total, item) => {
-        return total + ", " + item;
-        })
-    : "";
-
-    // Return classes based on whether item is checked
-    var isChecked = (item) =>
-    checked.includes(item) ? "checked-item" : "not-checked-item";
 
     return (
-        <div className="app">
-            <div className="checkList">
-            <div className="title">Your CheckList:</div>
-            <div className="list-container">
-                {checkList.map((item, index) => (
-                <div key={index}>
-                    <input value={item} type="checkbox" onChange={handleCheck} />
-                    <span className={isChecked(item)}>{item}</span>
-                </div>
-                ))}
+    <div className="checkList">
+        <div className="list-container">
+        {todoList.map((item, index) => (
+            <div key={index}>
+                <input value={item} type="checkbox" />
+                <span>{item}</span>
             </div>
-            </div>
-
-            <div>
-            {`Items checked are: ${checkedItems}`}
-            </div>
+        ))}
         </div>
+        {/* {Add_todo()} */}
+        <Popup trigger={<button>+</button>} modal>
+                {close => (
+                    <div>
+                        <h4>Add new To-Do</h4>
+                            <label htmlFor="text">Text:
+                                <input type="text" id="text" 
+                                    onChange={(e) => setNewVal(e.target.value)}/>
+                            </label>
+                            <button onClick={handleSubmit}>submit</button>
+                    </div>
+                )}
+            </Popup>
+    </div>
     );
 }
+
 
 function Journal(props){
     return (
         <div id="journal">
             {/* row seperating the two pages of the journal */}
-            <div class="book_page" id="left">
-                <div id="cur_goals" class="journal_part">
+            <div className="book_page" id="left">
+                <div id="cur_goals" className="journal_part">
                     <h3>current goals:</h3>
-                    <section contenteditable="true">
+                    <section contentEditable="true">
                         {props.cur_goals}
                     </section> 
                 </div>
-                <div id="core_values" class="journal_part">
+                <div id="core_values" className="journal_part">
                     <h3>core values:</h3>
-                    <section contenteditable="true">
+                    <section contentEditable="true">
                         {props.core_values}    
                     </section> 
                 </div>
-                <div id="to_do" class="journal_part checkboxes">
+                <div id="to_do" className="journal_part checkboxes">
                     <h3>to-do:</h3>
-                    <section id="textarea" contenteditable="true">
-                    <ul>
-                        <li>{/*<input type="checkbox"></input>*/} testing</li>
-                    </ul>
+                    <section id="textarea">
+                        {TODO_list(props.checkList)}
                     </section>
                 </div>
             </div>
 
-            <div class="vl"></div>
+            <div className="vl"></div>
 
-            <div class="book_page" id="right">
+            <div className="book_page" id="right">
                 <h3>Journal</h3>
-                <section contenteditable="true">
+                <section contentEditable="true">
                 </section>
 
                 <div id="page_arrows">
@@ -97,6 +129,6 @@ function Journal(props){
     )
 }
 
-// export default Journal;
-export default TODO_list;
+export default Journal;
+// export default TODO_list;
 
