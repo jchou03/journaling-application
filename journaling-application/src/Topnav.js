@@ -3,24 +3,63 @@ import './Topnav.css';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import React from 'react';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
-function signUp(state, email, username, password) {
+function signUp(setState, email, password) {
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+        setState((state, props) => {
+            return {
+                signedIn: 1,
+                user: userCredential.user,
+                email: email
+            }
+        });
+    }).catch((error) => {
+        console.log("Error occurred while creating new user");
+        console.log(error.code);
+        console.log(error.message);
+    });
     console.log(email);
-    console.log(username);
     console.log(password);
 }
 
-function signIn(state, username, password) {
-    console.log(username);
-    console.log(password);
+function logIn(setState, email, password) {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+        setState((state, props) => {
+            return {
+                signedIn: 1,
+                user: userCredential.user,
+                email: email
+            }
+        });
+    }).catch((error) => {
+        console.log("Error occurred while signing in");
+        console.log(error.code);
+        console.log(error.message);
+    });
 
 }
 
-function signOut(state) {
-    console.log("signed out");
+function logOut(setState) {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+        setState((state, props) => {
+            return {
+                signedIn: 0,
+                user: null,
+                email: null
+            }
+        });
+    }).catch((error) => {
+        console.log("Error occurred while signing out");
+        console.log(error.code);
+        console.log(error.message);
+    });
 }
 
-function signInPopup(state, close) {
+function signInPopup(state, setState) {
     if (state.signedIn == 1) {
         return (
             <Popup trigger={<button> Sign out</button>} modal>
@@ -29,7 +68,7 @@ function signInPopup(state, close) {
                         <h1> Sign out? </h1>
 
                         <button onClick={() => {
-                            signOut(state);
+                            logOut(setState);
                             close();
                         }}>Yes</button>
                         <button>No</button>
@@ -47,15 +86,12 @@ function signInPopup(state, close) {
 
                             <label for="email">Email address: </label>
                             <input type="text" id="email"/><br/>
-                            <label for="name">Username: </label>
-                            <input type="text" id="name"/><br/>
                             <label for="pass">Password: </label>
                             <input type="text" id="pass"/><br/>
                             <button onClick={() => {
                                 signUp(
-                                    state, 
+                                    setState, 
                                     document.getElementById("email").value, 
-                                    document.getElementById("name").value, 
                                     document.getElementById("pass").value);
                                 close();
                             }}>Sign Up</button>
@@ -68,12 +104,12 @@ function signInPopup(state, close) {
                         <>
                             <h1> Sign in </h1>
 
-                            <label for="name">Username: </label>
-                            <input type="text" id="name"/><br/>
+                            <label for="email">Email: </label>
+                            <input type="text" id="email"/><br/>
                             <label for="pass">Password: </label>
                             <input type="text" id="pass"/><br/>
                             <button onClick={() => {
-                                signIn(state, document.getElementById("name").value, document.getElementById("pass").value);
+                                logIn(setState, document.getElementById("email").value, document.getElementById("pass").value);
                                 close();
                             }}>Sign In</button>
                         </>
@@ -88,8 +124,9 @@ class Topnav extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: props.username,
-            signedIn: props.signedIn
+            signedIn: props.signedIn,
+            user: null,
+            email: null
         };
     }
     render() {
@@ -100,12 +137,12 @@ class Topnav extends React.Component {
                         style={{maxHeight:'65px', paddingRight: '25px'}} 
                         src="https://aux.iconspalace.com/uploads/book-icon-256-2103632816.png">
                     </img>
-                    Hello {this.state.signedIn == 1 ? this.state.username : ""} and welcome to your journal
+                    Welcome to your journal!
                 </b>
     
-                {this.state.signedIn == 1 ? <a>Currently signed in as {this.state.username}</a> : <></>}
+                {this.state.signedIn == 1 ? <a>Currently signed in as {this.state.email}</a> : <></>}
     
-                {signInPopup(this.state)}
+                {signInPopup(this.state, this.setState.bind(this))}
             </Navbar>
         );
     }
