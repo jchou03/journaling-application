@@ -31,6 +31,7 @@
 
 section{
     border: 1px solid paleturquoise;
+    margin-bottom: 10px;
 }
 
 #cur_goals{
@@ -51,8 +52,14 @@ section{
     float:right
 }
 
-/* .checkboxes ul {
-    margin: 0;
-    list-style: none;
-    float: left;
-  } */
+#save{
+    float:center
+}
+
+.text_form{
+    width:98%
+}
+
+#journal_entry{
+    width:99%
+}

@@ -1,43 +1,10 @@
 import React, {useEffect, useState} from "react";
 import Popup from 'reactjs-popup';
 import './Journal.css';
-
-// create a popup for adding a new todo element
-function Add_todo(){
-    const [name, setName] = useState("")
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        alert(`The name you entered was: ${name}`);
-      }
-
-    return(
-        <div>
-            <Popup trigger={<button>+</button>} modal>
-                {close => (
-                    <div>
-                        <h4>Add new To-Do</h4>
-                        <form>
-                            <label htmlFor="text">Text:
-                                <input type="text" id="text" value={name}
-                                    onChange={(e) => setName(e.target.value)} 
-                                    onSubmit={handleSubmit}/>
-                            </label>
-                            <input type="submit" />
-                        </form>
-
-                        {/* <button onClick={() => {
-                            todos.push(document.getElementById("text").value)
-                            console.log(todos)
-                            close()
-                        }}>submit</button> */}
-                    </div>
-                )}
-            </Popup>
-        </div>
-    )
-}
-
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs} from 'firebase/firestore/lite'
+import firebaseConfig from "./";
+import {app, db} from './DatabaseInit.js'
 
 // takes in list of text to put in checkboxes
 function TODO_list(props){
@@ -87,6 +54,11 @@ function TODO_list(props){
     );
 }
 
+function save (){
+    // console.log(goals + " " + values)
+    console.log("valid")
+}
+
 
 function Journal(props){
     return (
@@ -95,15 +67,18 @@ function Journal(props){
             <div className="book_page" id="left">
                 <div id="cur_goals" className="journal_part">
                     <h3>current goals:</h3>
-                    <section contentEditable="true">
+                    <input type="text" className="text_form" id="goals">
                         {props.cur_goals}
-                    </section> 
+                    </input>
+                    {/* <section contentEditable="true">
+                        {props.cur_goals}
+                    </section>  */}
                 </div>
                 <div id="core_values" className="journal_part">
                     <h3>core values:</h3>
-                    <section contentEditable="true">
-                        {props.core_values}    
-                    </section> 
+                    <input type="text" className="text_form" id="values">
+                        {props.cur_goals}
+                    </input>
                 </div>
                 <div id="to_do" className="journal_part checkboxes">
                     <h3>to-do:</h3>
@@ -117,13 +92,16 @@ function Journal(props){
 
             <div className="book_page" id="right">
                 <h3>Journal</h3>
-                <section contentEditable="true">
-                </section>
+                <input type="text" id="journal_entry">
+                        {props.cur_goals}
+                    </input>
 
                 <div id="page_arrows">
                     <button id="left_arrow">page_left</button>
                     <button id="right_arrow">page_right</button>
                 </div>
+
+                <button id="save" onClick={save()}>save</button>
             </div> 
         </div>
     )
