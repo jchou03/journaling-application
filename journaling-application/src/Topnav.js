@@ -27,6 +27,7 @@ function signUp(setState, email, password) {
 function logIn(setState, email, password) {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+        console.log("signed in with: " + userCredential.user.uid)
         setState((state, props) => {
             return {
                 signedIn: 1,
@@ -45,6 +46,7 @@ function logIn(setState, email, password) {
 function logOut(setState) {
     const auth = getAuth();
     signOut(auth).then(() => {
+        console.log("signed out")
         setState((state, props) => {
             return {
                 signedIn: 0,

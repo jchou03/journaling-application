@@ -2,29 +2,46 @@ import React, {useEffect, useState} from "react";
 import Popup from 'reactjs-popup';
 import './Journal.css';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs} from 'firebase/firestore/lite'
-import firebaseConfig from "./";
-import {app, db} from './DatabaseInit.js'
+import { getFirestore, collection, getDocs} from 'firebase/firestore'
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app, db } from './DatabaseInit.js'
+import { doc, setDoc, Timestamp } from "firebase/firestore"; 
+
+/*
+Database formatting: 
+    - each collection is named after the user's uid
+    - each document in the user's collection is for a different day (can be saved/updated for that day)
+*/
+
+const auth = getAuth()
+var user = auth.currentUser
+// check if a user is signed in
+onAuthStateChanged(auth, (user) => {
+    if(user){
+        console.log("signed in")
+        console.log("user is " + user.uid)
+    }else{
+        console.log("not signed in")
+    }
+})
+
+// global var for todo_list
+let todos = []
 
 // takes in list of text to put in checkboxes
 function TODO_list(props){
     const [todoList, setTodoList] = useState(props)
     const [newVal, setNewVal] = useState("")
-    // let todoList = todos
+
+    todos = todoList
 
     const handleSubmit = () => {
         console.log("handling submit")
-        console.log(newVal)
-        // let newList = todoList
-        // newList.push(newVal)
-        // console.log(newList)
-        todoList.push(newVal)
+        // console.log(newVal)
+        todoList.push({checked: false, str: newVal})
         console.log(todoList)
+        todos = todoList
         setTodoList([...todoList])
-        // this.setState(
-        //     {reload: true},
-        //     () => this.setState({reload: false})
-        //   )
     }
 
     return (
@@ -32,12 +49,11 @@ function TODO_list(props){
         <div className="list-container">
         {todoList.map((item, index) => (
             <div key={index}>
-                <input value={item} type="checkbox" />
-                <span>{item}</span>
+                <input defaultChecked={item.checked} type="checkbox"/>
+                <span>{item.str}</span>
             </div>
         ))}
         </div>
-        {/* {Add_todo()} */}
         <Popup trigger={<button>+</button>} modal>
                 {close => (
                     <div>
@@ -54,9 +70,25 @@ function TODO_list(props){
     );
 }
 
+// function to save the data to the database
 function save (){
     // console.log(goals + " " + values)
-    console.log("valid")
+    const auth = getAuth()
+    onAuthStateChanged(auth, function(user){
+        if(user){
+            // if the user is signed in, then we can save to database
+            setDoc(doc(db, ("" + user.uid), ("" + Timestamp.now())), {
+                goals: document.getElementById("goals").value,
+                values: document.getElementById("values").value,
+                todos: todos,
+                jouranl_entry: document.getElementById("journal_entry").value
+            })
+            console.log("saved")
+        } else {
+            // if the user is not signed in, then we cannot save
+            console.log("not signed in, cannot save")
+        }
+    })
 }
 
 
@@ -70,9 +102,6 @@ function Journal(props){
                     <input type="text" className="text_form" id="goals">
                         {props.cur_goals}
                     </input>
-                    {/* <section contentEditable="true">
-                        {props.cur_goals}
-                    </section>  */}
                 </div>
                 <div id="core_values" className="journal_part">
                     <h3>core values:</h3>
@@ -93,15 +122,15 @@ function Journal(props){
             <div className="book_page" id="right">
                 <h3>Journal</h3>
                 <input type="text" id="journal_entry">
-                        {props.cur_goals}
-                    </input>
+                    {props.cur_goals}
+                </input>
 
                 <div id="page_arrows">
                     <button id="left_arrow">page_left</button>
                     <button id="right_arrow">page_right</button>
                 </div>
 
-                <button id="save" onClick={save()}>save</button>
+                <button id="save" onClick={save}>save</button>
             </div> 
         </div>
     )

@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Topnav signedIn='0'/>
-    <Journal checkList={["get more sleep", "cry"]}/>
+    <Journal checkList={[{checked: false, str:"get more sleep"}, {checked: true, str: "cry"}]}/>
     {/* <App /> */}
     {/* <TODO_list checkList={["Apple", "Banana", "Tea", "Coffee"]}/> */}
   </React.StrictMode>
