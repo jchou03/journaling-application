@@ -7,6 +7,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app, db } from './DatabaseInit.js'
 import { doc, setDoc, Timestamp } from "firebase/firestore"; 
 
+import RightPage from "./journal_components/RightPage";
+
 /*
 Database formatting: 
     - each collection is named after the user's uid
@@ -92,7 +94,7 @@ function save (){
 }
 
 
-function Journal(props){
+function OldJournal(props){
     return (
         <div id="journal">
             {/* row seperating the two pages of the journal */}
@@ -119,23 +121,11 @@ function Journal(props){
 
             <div className="vl"></div>
 
-            <div className="book_page" id="right">
-                <h3>Journal</h3>
-                <input type="text" id="journal_entry">
-                    {props.cur_goals}
-                </input>
-
-                <div id="page_arrows">
-                    <button id="left_arrow">page_left</button>
-                    <button id="right_arrow">page_right</button>
-                </div>
-
-                <button id="save" onClick={save}>save</button>
-            </div> 
+            <RightPage />
         </div>
     )
 }
 
-export default Journal;
+export default OldJournal;
 // export default TODO_list;
 

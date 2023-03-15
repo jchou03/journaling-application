@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import Topnav from './Topnav'
-import Journal from './Journal'
+import Journal from './journal_components/Journal'
 import reportWebVitals from './reportWebVitals';
-import TODO_list from './Journal';
+import OldJournal from './OldJournal'
+import TODO_list from './OldJournal';
 import {app, db} from "./DatabaseInit.js"
 
 
@@ -13,7 +14,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Topnav signedIn='0'/>
-    <Journal checkList={[{checked: false, str:"get more sleep"}, {checked: true, str: "cry"}]}/>
+    <OldJournal checkList={[{checked: false, str:"get more sleep"}, {checked: true, str: "cry"}]}/>
     {/* <App /> */}
     {/* <TODO_list checkList={["Apple", "Banana", "Tea", "Coffee"]}/> */}
   </React.StrictMode>
