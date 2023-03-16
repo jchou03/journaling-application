@@ -18,27 +18,44 @@ const Journal = (props) => {
             <div className="book_page" id="left">
                 <div id="cur_goals" className="journal_part">
                     <h3>current goals:</h3>
-                    <input type="text" className="text_form" id="goals">
-                        {props.cur_goals}
+                    <input type="text" className="text_form" id="goals" onClick={(e) => {console.log("updated"); updateGoals(e)}}>
+                        {goals}
                     </input>
+                    <p>{goals}</p>
                 </div>
                 <div id="core_values" className="journal_part">
                     <h3>core values:</h3>
-                    <input type="text" className="text_form" id="values">
-                        {props.cur_goals}
+                    <input type="text" className="text_form" id="values" onChange={(e) => updateValues(e)}>
+                        {values}
                     </input>
                 </div>
                 <div id="to_do" className="journal_part checkboxes">
                     <h3>to-do:</h3>
                     <section id="textarea">
-                        {TODO_list(props.checkList)}
+                        <ul>
+                        {todos.map((todo) => {
+                            <li>{todo}</li>
+                        })}
+                        </ul>
                     </section>
                 </div>
             </div>
 
             <div className="vl"></div>
 
-            <RightPage />
+            <div className="book_page" id="right">
+                <h3>Journal</h3>
+                <input type="text" id="journal_entry">
+                    {message}
+                </input>
+
+                <div id="page_arrows">
+                    <button id="left_arrow">page_left</button>
+                    <button id="right_arrow">page_right</button>
+                </div>
+
+                <button id="save" onClick={console.log("hi")}>save</button>
+            </div>
         </div>
 
     )
