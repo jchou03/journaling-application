@@ -7,8 +7,8 @@ import TODO_list from '../OldJournal'
 
 const Journal = (props) => {
     // use hooks to manage the state of all 4 input fields
-    const [message, updateMessage] = useState("")
-    const [goals, updateGoals] = useState([])
+    const [message, updateMessage] = useState("testing")
+    const [goals, updateGoals] = useState("")
     const [values, updateValues] = useState("")
     const [todos, updateTodos] = useState([])
     
@@ -18,17 +18,15 @@ const Journal = (props) => {
             <div className="book_page" id="left">
                 <div id="cur_goals" className="journal_part">
                     <h3>current goals:</h3>
-                    <input type="text" className="text_form" id="goals" onClick={(e) => {console.log("updated"); updateGoals(e)}}>
-                        {goals}
+                    <input type="text" className="text_form" id="goals" value={goals} onChange={(event) => {updateGoals(event.target.value)}}>
                     </input>
                     <p>{goals}</p>
                 </div>
                 <div id="core_values" className="journal_part">
                     <h3>core values:</h3>
-                    <input type="text" className="text_form" id="values" onChange={(e) => updateValues(e)}>
-                        {values}
+                    <input type="text" className="text_form" id="values" value={values} onChange={(event) => updateValues(event.target.value)}>
                     </input>
-                </div>
+                </div> 
                 <div id="to_do" className="journal_part checkboxes">
                     <h3>to-do:</h3>
                     <section id="textarea">
@@ -42,12 +40,9 @@ const Journal = (props) => {
             </div>
 
             <div className="vl"></div>
-
             <div className="book_page" id="right">
                 <h3>Journal</h3>
-                <input type="text" id="journal_entry">
-                    {message}
-                </input>
+                <input type="text" id="journal_entry" value={message} onChange={(event) => {updateMessage(event.target.value)}}></input>
 
                 <div id="page_arrows">
                     <button id="left_arrow">page_left</button>
