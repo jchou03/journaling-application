@@ -5,11 +5,14 @@ import '../Journal.css';
 import RightPage from './RightPage'
 import TODO_list from '../OldJournal'
 
+import ToDo from "./ToDo"
+
 const Journal = (props) => {
     // use hooks to manage the state of all 4 input fields
     const [message, updateMessage] = useState("testing")
     const [goals, updateGoals] = useState("")
     const [values, updateValues] = useState("")
+    const [todoText, updateTodoText] = useState("")
     const [todos, updateTodos] = useState([])
     
     return (
@@ -26,13 +29,29 @@ const Journal = (props) => {
                     <h3>core values:</h3>
                     <input type="text" className="text_form" id="values" value={values} onChange={(event) => updateValues(event.target.value)}>
                     </input>
-                </div> 
+                </div>
                 <div id="to_do" className="journal_part checkboxes">
                     <h3>to-do:</h3>
+                    <input
+                        type="text" 
+                        className="text_form" 
+                        id="todo_text_box"
+                        value={todoText} 
+                        onChange={(event) => {updateTodoText(event.target.value)}} 
+                        onKeyDown={(event) => {
+                            if(event.key === "Enter" && todoText != ""){
+                                todos.push({text: todoText, checked: false})
+                                updateTodos(todos);
+                                updateTodoText("");
+                            }
+                        }}
+                    ></input>
+
                     <section id="textarea">
                         <ul>
-                        {todos.map((todo) => {
-                            <li>{todo}</li>
+                        {todos.map((todo, index) => {
+                            console.log("adding todo");
+                            return <ToDo key={index} text={todo.text}/>
                         })}
                         </ul>
                     </section>
@@ -49,7 +68,7 @@ const Journal = (props) => {
                     <button id="right_arrow">page_right</button>
                 </div>
 
-                <button id="save" onClick={console.log("hi")}>save</button>
+                {/* <button id="save" onClick={console.log("hi")}>save</button> */}
             </div>
         </div>
 
